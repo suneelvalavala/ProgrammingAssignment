@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -35,7 +36,27 @@ public class Server {
 
                 // Null check
                 if (userId != null) {
-                    System.out.println("Client connected: " + userId);
+                    try {
+                        // Load server private key
+                        File serverPrivateKey = new File("server.prv");
+                        if (serverPrivateKey.exists()) {
+                            System.out.println("Server private key loaded");
+                        } else {
+                            System.out.println("server.prv not found");
+                        }
+
+                        // Load client's public key
+                        File clientPublicKey = new File(userId + ".pub");
+                        if (clientPublicKey.exists()) {
+                            System.out.println("Client public key loaded: " + clientPublicKey.getName());
+                        } else {
+                            System.out.println("Client public key not found");
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
                 } else {
                     System.out.println("Client disconnected before sending userid");
                 }
